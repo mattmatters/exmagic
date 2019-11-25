@@ -34,6 +34,7 @@ defmodule ExMagic.Mixfile do
       name: :exmagic,
       files: ["c_src", "lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Andrew Dunham", "Liam P. White"],
+      links: %{"GitHub" => "https://github.com/liamwhite/exmagic"},
       licenses: ["MIT"],
     ]
   end
