@@ -32,7 +32,7 @@ defmodule ExMagic.Mixfile do
   defp package do
     [
       name: :exmagic,
-      files: ["c_src", "lib", "mix.exs", "README*", "LICENSE*", ".file-version"],
+      files: ["c_src", "lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Andrew Dunham", "Liam P. White"],
       licenses: ["MIT"],
     ]

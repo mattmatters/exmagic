@@ -1,7 +1,5 @@
 # ExMagic
 
-[![Build Status](https://travis-ci.org/andrew-d/exmagic.svg?branch=master)](https://travis-ci.org/andrew-d/exmagic)
-
 [`libmagic`][lm] bindings for Elixir.
 
 ## Installation
@@ -12,7 +10,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
     ```elixir
     def deps do
-      [{:exmagic, "~> 0.0.1"}]
+      [{:exmagic, "~> 0.0.3"}]
     end
     ```
 
