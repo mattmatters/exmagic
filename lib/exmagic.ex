@@ -11,7 +11,7 @@ defmodule ExMagic do
 
   @doc false
   def init do
-    path = Path.join(@priv_dir, "exmagic") |> String.to_char_list
+    path = Path.join(@priv_dir, "exmagic") |> String.to_charlist()
     :ok = :erlang.load_nif(path, 0)
   end
 

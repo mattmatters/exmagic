@@ -6,23 +6,13 @@ ERLANG_PATH := $(shell erl -eval 'io:format("~s", [lists:concat([code:root_dir()
 # Other directory paths
 OUT_DIR := priv
 
-# NOTE: This is necessary due to the way that Mix builds projects.  When we're
-# building ExMagic by itself, the `deps` directory will be nested inside the
-# `exmagic` directory.  However, when ExMagic is included in another project,
-# the `exmagic` directory is located in the top-level `deps` directory, next to
-# the `libmagic` directory.
-ifeq ($(wildcard deps/libmagic),)
-	LIBMAGIC_PATH := ../libmagic
-else
-	LIBMAGIC_PATH := $(shell pwd)/deps/libmagic
-endif
-
+LIBMAGIC_PATH := c_src/libmagic
 LIBMAGIC_VERSION := $(shell cat .file-version)
 LIBMAGIC_STAMP := $(OUT_DIR)/libmagic-$(LIBMAGIC_VERSION).stamp
 
 
 # Set up compiler flags
-CFLAGS := -g -O3 -fPIC -ansi -pedantic -Wall -Wextra -Wno-unused-parameter
+CFLAGS := -g -O3 -fPIC -Wall -Wno-unused-parameter
 CPPFLAGS := -I$(ERLANG_PATH) -I$(LIBMAGIC_PATH)/src
 LDFLAGS := -lz #-L$(LIBMAGIC_PATH) -lmagic
 
@@ -47,7 +37,7 @@ all: $(OUT_DIR)/exmagic.so $(OUT_DIR)/magic.mgc
 $(OUT_DIR)/exmagic.o: c_src/exmagic.c $(LIBMAGIC_STAMP) | $(OUT_DIR)
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ c_src/exmagic.c
 
-$(OUT_DIR)/exmagic.so: $(OUT_DIR)/exmagic.o $(LIBMAGIC_STAMP) | $(OUT_DIR)
+$(OUT_DIR)/exmagic.so: $(OUT_DIR)/exmagic.o $(LIBMAGIC_STAMP) $(LIBMAGIC_AR) | $(OUT_DIR)
 	$(CC) $(CFLAGS) -shared $(LDFLAGS) -o $@ $(OUT_DIR)/exmagic.o $(LIBMAGIC_AR)
 
 $(LIBMAGIC_STAMP): | $(OUT_DIR)
@@ -66,6 +56,8 @@ $(OUT_DIR)/magic.mgc: $(LIBMAGIC_STAMP) | $(OUT_DIR)
 $(OUT_DIR):
 	mkdir -p $@
 
+$(LIBMAGIC_AR):
+	$(MAKE) -C c_src/libmagic
 
 ############################################################
 ## UTIL

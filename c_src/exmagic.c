@@ -269,7 +269,11 @@ cleanup:
     return ret;
 }
 
-
+static int upgrade(ErlNifEnv* caller_env, void **priv_data, void **old_priv_data, ERL_NIF_TERM load_info)
+{
+  /* nothing to do */
+  return 0;
+}
 
 /**
  * Function definitions for our NIF.
@@ -288,4 +292,4 @@ nif_funcs[] = {
  * name, the list of function mappings, and 4 pointers to functions: load,
  * reload, upgrade, and unload.
  */
-ERL_NIF_INIT(Elixir.ExMagic, nif_funcs, NULL, NULL, NULL, NULL)
+ERL_NIF_INIT(Elixir.ExMagic, nif_funcs, NULL, NULL, upgrade, NULL)
