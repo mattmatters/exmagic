@@ -1,0 +1,3 @@
+[submodule "c_src/libmagic"]
+	path = c_src/libmagic
+	url = https://github.com/file/file
