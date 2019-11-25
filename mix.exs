@@ -5,12 +5,11 @@ defmodule ExMagic.Mixfile do
     [
       app: :exmagic,
       description: "Wrapper around libmagic",
-      version: "0.0.2",
+      version: "0.0.3",
       package: package(),
       name: "ExMagic",
-      source_url: "https://github.com/andrew-d/exmagic",
-      homepage_url: "https://andrew-d.github.io/exmagic/",
-      elixir: "~> 1.0",
+      source_url: "https://github.com/liamwhite/exmagic",
+      elixir: "~> 1.9",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       compilers: [:make, :elixir, :app],
@@ -36,35 +35,25 @@ defmodule ExMagic.Mixfile do
     [
       name: :exmagic,
       files: ["c_src", "lib", "mix.exs", "README*", "LICENSE*", ".file-version"],
-      maintainers: ["Andrew Dunham"],
+      maintainers: ["Andrew Dunham", "Liam P. White"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/andrew-d/exmagic",
-               "Docs" => "https://andrew-d.github.io/exmagic/"},
     ]
   end
 
   defp deps do
     version = File.read!(".file-version")
-              |> ExMagic.Mixfile.trim
+              |> String.trim()
               |> String.replace(".", "_")
 
     [
       # This is a non-Elixir dependency that we have Mix fetch.  We use this to
       # compile libmagic into our NIF's shared object.
-      {:libmagic, git: "https://github.com/file/file", tag: "FILE#{version}", app: false, compile: false},
+      {:libmagic, github: "file/file", tag: "FILE#{version}", app: false, compile: false},
 
       # Development / testing dependencies
-      {:dialyxir, "~> 0.3.5", only: :test},
-      {:ex_doc, "~> 0.12", only: :docs},
+      {:dialyxir, "~> 0.5.1", only: :test},
+      {:ex_doc, "~> 0.21.2", only: :docs},
     ]
-  end
-
-  def trim(s) do
-    if :erlang.function_exported(String, :trim, 1) do
-      String.trim(s)
-    else
-      String.strip(s)
-    end
   end
 end
 
@@ -72,27 +61,32 @@ end
 # Makefile tasks
 
 defmodule Mix.Tasks.Compile.Make do
-  @shortdoc "Compiles helper in c_src"
+  @moduledoc "Compiles helper in c_src"
 
-  def run(_) do
-    if match? {:win32, _}, :os.type do
-      exit(:not_supported)
-    else
-      {result, _error_code} = System.cmd("make", [], stderr_to_stdout: true)
-      Mix.shell.info result
+  def run(_args) do
+    cond do
+      match?({:win32, _}, :os.type()) ->
+        exit(:not_supported)
+      
+      File.exists?(libmagic_library_path()) ->
+        :noop
+      
+      true ->
+        {result, _error_code} = System.cmd("make", [], stderr_to_stdout: true)
+        Mix.shell.info(result)
+
+        :ok
     end
+  end
+
+  def clean do
+    {result, _error_code} = System.cmd("make", ["clean"], stderr_to_stdout: true)
+    Mix.shell.info(result)
 
     :ok
   end
-end
 
-defmodule Mix.Tasks.Clean.Make do
-  @shortdoc "Cleans helper in c_src"
-
-  def run(_) do
-    {result, _error_code} = System.cmd("make", ['clean'], stderr_to_stdout: true)
-    Mix.shell.info result
-
-    :ok
+  defp libmagic_library_path do
+    Path.join([Mix.Project.deps_path(), "libmagic", "src", ".libs", "libmagic.a"])
   end
 end
