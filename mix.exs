@@ -43,7 +43,7 @@ defmodule ExMagic.Mixfile do
     [
       {:elixir_make, "~> 0.5.0", runtime: false},
       {:dialyxir, "~> 0.5.1", only: :test},
-      {:ex_doc, "~> 0.21.2", only: :docs},
+      {:ex_doc, "~> 0.21.2", only: :dev},
     ]
   end
 end
