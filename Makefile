@@ -6,7 +6,7 @@ ERLANG_PATH := $(shell erl -eval 'io:format("~s", [lists:concat([code:root_dir()
 # Other directory paths
 OUT_DIR := priv
 
-LIBMAGIC_PATH := c_src/libmagic
+LIBMAGIC_PATH := deps/libmagic
 LIBMAGIC_VERSION := $(shell cat .file-version)
 LIBMAGIC_STAMP := $(OUT_DIR)/libmagic-$(LIBMAGIC_VERSION).stamp
 
@@ -41,6 +41,9 @@ $(OUT_DIR)/exmagic.so: $(OUT_DIR)/exmagic.o $(LIBMAGIC_STAMP) $(LIBMAGIC_AR) | $
 	$(CC) $(CFLAGS) -shared $(LDFLAGS) -o $@ $(OUT_DIR)/exmagic.o $(LIBMAGIC_AR)
 
 $(LIBMAGIC_STAMP): | $(OUT_DIR)
+	if [ ! -d "deps" ]; then mkdir deps; fi
+	cd deps; if [ ! -d "libmagic" ]; then git clone https://github.com/file/file.git libmagic; fi ; cd ..
+	cd deps/libmagic ; git checkout a0d5b0e
 	cd $(LIBMAGIC_PATH) && autoreconf -i
 	cd $(LIBMAGIC_PATH) && ./configure \
 		--disable-dependency-tracking \
