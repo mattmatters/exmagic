@@ -43,7 +43,7 @@ $(OUT_DIR)/exmagic.so: $(OUT_DIR)/exmagic.o $(LIBMAGIC_STAMP) $(LIBMAGIC_AR) | $
 $(LIBMAGIC_STAMP): | $(OUT_DIR)
 	if [ ! -d "deps" ]; then mkdir deps; fi
 	cd deps; if [ ! -d "libmagic" ]; then git clone https://github.com/file/file.git libmagic; fi ; cd ..
-	cd deps/libmagic ; git checkout a0d5b0e
+	cd deps/libmagic ; git checkout 4cbd5c8
 	cd $(LIBMAGIC_PATH) && autoreconf -i
 	cd $(LIBMAGIC_PATH) && ./configure \
 		--disable-dependency-tracking \
