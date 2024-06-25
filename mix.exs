@@ -9,7 +9,7 @@ defmodule ExMagic.Mixfile do
       package: package(),
       name: "ExMagic",
       source_url: "https://github.com/liamwhite/exmagic",
-      elixir: "~> 1.9",
+      elixir: "~> 1.15",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       compilers: [:elixir_make] ++ Mix.compilers(),
@@ -41,9 +41,9 @@ defmodule ExMagic.Mixfile do
 
   defp deps do
     [
-      {:elixir_make, "~> 0.5.0", runtime: false},
-      {:dialyxir, "~> 0.5.1", only: :test},
-      {:ex_doc, "~> 0.21.2", only: :dev},
+      {:elixir_make, "~> 0.8.0", runtime: false},
+      {:dialyxir, "~> 1.4.0", only: :test},
+      {:ex_doc, "~> 0.34.0", only: :dev},
     ]
   end
 end
