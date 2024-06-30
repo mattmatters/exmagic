@@ -37,8 +37,8 @@ defmodule ExMagic.Mixfile do
   defp deps do
     [
       {:elixir_make, "~> 0.8.0", runtime: false},
-      {:dialyxir, "~> 1.4.0", only: :test},
-      {:ex_doc, "~> 0.34.0", only: :dev},
+      {:dialyxir, "~> 1.4.0", only: :test, runtime: false},
+      {:ex_doc, "~> 0.34.0", only: :dev, runtime: false},
     ]
   end
 end
