@@ -13,8 +13,7 @@ defmodule ExMagic.Mixfile do
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       compilers: [:elixir_make] ++ Mix.compilers(),
-      aliases: aliases(),
-      deps: deps(),
+      deps: deps()
     ]
   end
 
