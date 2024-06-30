@@ -14,7 +14,7 @@ LIBMAGIC_STAMP := $(OUT_DIR)/libmagic-$(LIBMAGIC_VERSION).stamp
 # Set up compiler flags
 CFLAGS := -g -O3 -fPIC -Wall -Wno-unused-parameter
 CPPFLAGS := -I$(ERLANG_PATH) -I$(LIBMAGIC_PATH)/src
-LDFLAGS := -lz #-L$(LIBMAGIC_PATH) -lmagic
+LDFLAGS := -lz # -L$(LIBMAGIC_PATH) -lmagic
 
 
 ############################################################
