@@ -19,7 +19,7 @@ defmodule ExMagicTest do
   end
 
   test "from_binary with char list" do
-    assert ExMagic.from_buffer('foo') == {:ok, "text/plain"}
+    assert ExMagic.from_buffer(~c"foo") == {:ok, "text/plain"}
   end
 
   test "from_binary!" do
