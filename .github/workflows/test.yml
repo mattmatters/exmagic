@@ -32,7 +32,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get upgrade -y
-          sudo apt-get install -y autoconf automake file gcc git make tree build-essential git zstd libtool zlib1g-dev
+          sudo apt-get install -y autoconf automake file gcc git make tree build-essential git zstd libzstd-dev libtool zlib1g-dev
 
       - name: Setup beam
         uses: erlef/setup-beam@v1
